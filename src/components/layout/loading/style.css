@@ -1,0 +1,14 @@
+.load {
+    width: 48px;
+    height: 48px;
+    border-radius: 9999px;
+    border: 2px solid transparent;
+    border-top: 2px solid white;
+    animation: load 1s infinite linear forwards;
+}
+
+@keyframes load {
+    to {
+        transform: rotate(1turn);
+    }
+}

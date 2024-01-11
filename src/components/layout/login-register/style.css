@@ -52,3 +52,9 @@ form button {
 .form2.move2 {
     left: 100%;
 }
+
+label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}

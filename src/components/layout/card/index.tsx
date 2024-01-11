@@ -4,25 +4,31 @@ import ILivros from '../../../interfaces/iLivros';
 import IData from '../../../interfaces/iData';
 
 import './style.css';
+import Loading from '../loading';
 
 const { REACT_APP_API_URL } = process.env;
 
 export default function Card({ tipo, search = null }: { tipo: string; search: string | null }) {
     const [card, setCard] = useState<IData<ILivros[]>>();
+    const [load, setLoad] = useState<boolean>(false);
     useEffect(() => {
         async function items() {
+            setLoad(true)
             const res = await fetch(`${REACT_APP_API_URL}api/livros`);
 
             return res
         }
 
-        items().then(d => d.json()).then(r => { setCard(r); localStorage.setItem('livros', JSON.stringify(r)) }).catch(err => console.log(err));
+        items().then(d => d.json()).then(r => { setCard(r); localStorage.setItem('livros', JSON.stringify(r)) }).catch(err => console.log(err)).finally(()=> setLoad(false));
     }, [])
 
 
 
     return (
         <>
+            {load && tipo == 'all' ?
+                <Loading bg='bg-[#000a]' /> : ''
+            }
             {card ?
                 card.data &&
                 card.data.filter(i => {

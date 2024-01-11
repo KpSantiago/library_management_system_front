@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
 import './style.css';
 import ILivros from '../../../interfaces/iLivros';
+import Loading from '../../layout/loading';
 
 const { REACT_APP_API_URL } = process.env;
 
@@ -11,6 +12,7 @@ let mes = date.getMonth() + 1;
 let ano = date.getFullYear();
 
 export default function Livro() {
+    const [load, setLoad] = useState<boolean>(false);
     const user: { data: { id: number; livro_id: number; token: string; } } = JSON.parse(localStorage.getItem('ashsdas') || 'null');
     const livro_id = useParams();
 
@@ -24,7 +26,8 @@ export default function Livro() {
             return res;
         }
 
-        getLivro().then(d => d.json()).then(d => { setLivro(d.data[0]) }).catch(e => console.log(e));
+
+        getLivro().then(d => { setLoad(true); return d.json() }).then(d => { setLivro(d.data[0]) }).catch(e => console.log(e)).finally(() => setLoad(false));
 
 
     }, []);
@@ -33,6 +36,7 @@ export default function Livro() {
         Navigate({ to: '/' })
     }
     async function adquirir() {
+        setLoad(true);
         dia += livro.dias_para_devolucao;
 
         if (dia > 30 && dia < 60) {
@@ -64,10 +68,11 @@ export default function Livro() {
             headers: {
                 'Content-Type': 'application/json'
             }, body: JSON.stringify(livro_body)
-        }).then(d => d.json()).then(d => console.log(d)).catch(e => console.log(e)).finally(() => {
+        }).then(d => { return d.json(); }).then(d => { console.log(d); }).catch(e => console.log(e)).finally(() => {
             dia = date.getDate();
             mes = date.getMonth() + 1;
             ano = date.getFullYear();
+
         });
 
         await fetch(`${REACT_APP_API_URL}api/purchase/${Number(user.data.id)}`, {
@@ -75,17 +80,19 @@ export default function Livro() {
             headers: {
                 'Content-Type': 'application/json'
             }, body: JSON.stringify(aluno_body)
-        }).then(d => d.json()).then(d => {
+        }).then(d => { return d.json(); }).then(d => {
             if (!d.error) {
                 setMsg(d.message)
             }
         }).catch(e => console.log(e))
         localStorage.setItem('ashsdas', JSON.stringify({ data: { id: user.data.id, livro_id: livro_id.id, token: user.data.token } }))
-        setTimeout(() => { window.location.reload(); }, 2000)
+        setLoad(false)
+        window.location.reload();
 
     }
 
     async function devolucao() {
+        setLoad(true);
         const aluno_body = {
             livro_id: null,
             updated_at: `${date.getMonth() + 1}-${date.getDate()}-${date.getFullYear()}`
@@ -101,7 +108,7 @@ export default function Livro() {
             headers: {
                 'Content-Type': 'application/json'
             }, body: JSON.stringify(livro_body)
-        }).then(d => d.json()).then(d => console.log(d)).catch(e => console.log(e)).finally(() => {
+        }).then(d => { return d.json(); }).then(d => console.log(d)).catch(e => console.log(e)).finally(() => {
             dia = date.getDate();
             mes = date.getMonth() + 1;
             ano = date.getFullYear();
@@ -112,8 +119,9 @@ export default function Livro() {
             headers: {
                 'Content-Type': 'application/json'
             }, body: JSON.stringify(aluno_body)
-        }).then(d => d.json()).then(d => console.log(d)).catch(e => console.log(e));
+        }).then(d => { return d.json(); }).then(d => console.log(d)).catch(e => console.log(e))
         localStorage.setItem('ashsdas', JSON.stringify({ data: { id: user.data.id, livro_id: null, token: user.data.token } }))
+        setLoad(false)
         window.location.reload();
     }
 
@@ -132,9 +140,13 @@ export default function Livro() {
     return (
         <div className='w-screen max-w-screen h-screen max-h-screen grid place-items-center overflow-y-auto relative'>
             {msg &&
-                <div className='w-full flex justify-center fixed top-10'>
+                <div className='w-full flex justify-center fixed top-0 z-20 pt-4'>
                     <p className='bg-[#0F06] text-white text-2xl font-semibold w-[50%] h-12  grid place-items-center border-[1px] border-green-600 rounded-2xl p-2'>{msg}</p>
                 </div>}
+            {load &&
+                <Loading bg='bg-[#000a]' />
+            }
+
             <div className='w-[90%] h-[90%] flex flex-wrap items-center gap-8'>
                 {livro.image ? <img className='img min-w-[200px] w-[20%] h-[65%] rounded-2xl' src={`${REACT_APP_API_URL}api/image/${livro.image}`} /> : <div className='bg-slate-400 min-w-[200px] w-[20%] h-[65%] rounded-2xl'></div>}
                 <div className='infos h-[65%]'>
