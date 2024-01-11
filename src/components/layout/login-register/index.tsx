@@ -72,20 +72,20 @@ export default function LoginRegister() {
     return (
         <div className='form-container bg-transparent backdrop-blur-[4px] w-[30%] min-h-[60%] h-fit max-h-fit flex flex-col items-center rounded-2xl py-4 overflow-x-hidden'>
             {load &&
-                <Loading size='full' bg='bg-[#0004]'/>
+                <Loading size='full' bg='bg-[#0004]' />
             }
             <h1 className='text-white font-semibold text-2xl w-full text-center mb-6'>Fazer {tipo}</h1>
             {error && <p className='bg-[#f002] text-red-600 font-semibold w-[90%] p-1 rounded-lg border-[1px] border-solid border-red-500 mb-4'>{error}</p>}
             <div className='flex'>
                 <form ref={form1} className={'form1 min-w-full flex flex-col items-center gap-12 px-4'}>
                     <label htmlFor='nome'>
-                        <Icon icon="fluent:person-48-regular" className='text-2xl text-white' /><input type="text" id='nome' placeholder='Digite o seu nome' onChange={(e) => setNome(e.target.value)} />
+                        <Icon icon="fluent:person-48-regular" className='text-2xl text-white' /><input type="text" id='nome' placeholder='Digite o seu nome' onChange={(e) => setNome(e.target.value)} value={nome ? nome : ''} />
                     </label>
                     <label htmlFor='email'>
-                        <Icon icon="ic:outline-email" className='text-2xl text-white' /><input type="email" id='email' placeholder='Digite o seu email' onChange={(e) => setEmail(e.target.value)} />
+                        <Icon icon="ic:outline-email" className='text-2xl text-white' /><input type="email" id='email' placeholder='Digite o seu email' onChange={(e) => setEmail(e.target.value)} value={email ? email : ''} />
                     </label>
                     <label htmlFor='senha'>
-                        <Icon icon="carbon:password" className='text-2xl text-white' /><input type="password" id='senha' placeholder='Digite a sua senha' onChange={(e) => setSenha(e.target.value)} />
+                        <Icon icon="carbon:password" className='text-2xl text-white' /><input type="password" id='senha' placeholder='Digite a sua senha' onChange={(e) => setSenha(e.target.value)} value={senha ? senha : ''} />
                     </label>
                     <div className='w-[75%]'>
                         <button className='bg-transparent w-full h-8 rounded-lg hover:bg-[#fff1] duration-200' onClick={(e) => {
