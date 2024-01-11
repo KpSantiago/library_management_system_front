@@ -1,0 +1,54 @@
+.form-container {
+    border: .5px solid white;
+}
+
+label {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+input {
+    background-color: transparent;
+    color: #fff;
+    width: 95%;
+    border-bottom: 1px solid white;
+}
+
+label input::placeholder {
+    font-size: .9rem;
+    color: #fffe;
+}
+
+form button {
+    border: 1px solid white;
+    color: white;
+}
+
+.form1 {
+    position: relative;
+    left: 0;
+    transition: all .5s;
+}
+
+.form1.move {
+    left: -100%;
+}
+
+.form1.move2 {
+    left: 0%;
+}
+
+.form2 {
+    position: relative;
+    left: 100%;
+    transition: all .5s;
+}
+
+.form2.move {
+    left: -100%;
+}
+
+.form2.move2 {
+    left: 100%;
+}

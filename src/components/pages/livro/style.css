@@ -1,0 +1,7 @@
+.infos {
+    width: calc(100% - (20% + 52px));
+}
+
+.img {
+    box-shadow: 2px 6px 8px 0 rgba(0, 0, 0, 0.15), -2px -6px 8px 0 rgba(200, 200, 200, 0.15);
+}

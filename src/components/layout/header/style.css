@@ -1,0 +1,34 @@
+.sidebar {
+    box-shadow: 2px 0 10px 0 rgba(0, 0, 0, .15);
+    transition: all .4s;
+}
+
+.sidebar.actived {
+    width: 240px;
+}
+
+li {
+    transition: all .3s;
+}
+
+li:hover:not(.mh) {
+    color: rgb(154, 51, 147)
+}
+
+li p {
+    background-color: currentColor;
+    height: 6px;
+    border-radius: 9999px;
+    transition: all .4s;
+}
+
+li span {
+    font-size: 18px;
+    margin-left: 6px;
+}
+
+.logout {
+    width: 90%;
+    padding-top: 10px;
+    border-top: 1px solid currentColor;
+}

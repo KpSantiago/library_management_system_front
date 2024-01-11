@@ -1,0 +1,8 @@
+input::placeholder {
+    color: #0008;
+    font-weight: 600;
+}
+
+input:focus::placeholder {
+    color: white;
+}
