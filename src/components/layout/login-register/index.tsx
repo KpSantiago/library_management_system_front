@@ -72,7 +72,7 @@ export default function LoginRegister() {
     return (
         <div className='form-container bg-transparent backdrop-blur-[4px] w-[30%] min-h-[60%] h-fit max-h-fit flex flex-col items-center rounded-2xl py-4 overflow-x-hidden'>
             {load &&
-                <Loading bg='bg-[#0004]'/>
+                <Loading size='full' bg='bg-[#0004]'/>
             }
             <h1 className='text-white font-semibold text-2xl w-full text-center mb-6'>Fazer {tipo}</h1>
             {error && <p className='bg-[#f002] text-red-600 font-semibold w-[90%] p-1 rounded-lg border-[1px] border-solid border-red-500 mb-4'>{error}</p>}

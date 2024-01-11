@@ -27,7 +27,7 @@ export default function Card({ tipo, search = null }: { tipo: string; search: st
     return (
         <>
             {load && tipo == 'all' ?
-                <Loading bg='bg-[#000a]' /> : ''
+                <Loading bg='bg-[#000a]' size='screen'/> : ''
             }
             {card ?
                 card.data &&

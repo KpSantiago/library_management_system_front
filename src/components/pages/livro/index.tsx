@@ -144,7 +144,7 @@ export default function Livro() {
                     <p className='bg-[#0F06] text-white text-2xl font-semibold w-[50%] h-12  grid place-items-center border-[1px] border-green-600 rounded-2xl p-2'>{msg}</p>
                 </div>}
             {load &&
-                <Loading bg='bg-[#000a]' />
+                <Loading size='screen' bg='bg-[#000a]' />
             }
 
             <div className='w-[90%] h-[90%] flex flex-wrap items-center gap-8'>
