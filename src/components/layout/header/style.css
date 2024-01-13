@@ -4,7 +4,7 @@
 }
 
 .sidebar.actived {
-    width: 240px;
+    min-width: 240px;
 }
 
 li {
@@ -31,4 +31,13 @@ li span {
     width: 90%;
     padding-top: 10px;
     border-top: 1px solid currentColor;
+}
+
+@media (max-width: 754px) {
+    .sidebar {
+        position: fixed;
+        z-index: 99;
+        top: 0;
+        left: 0;
+    }
 }

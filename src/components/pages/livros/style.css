@@ -6,3 +6,9 @@ input::placeholder {
 input:focus::placeholder {
     color: white;
 }
+
+@media (max-width: 754px) {
+    .books-cntainer {
+        justify-content: center;
+    }
+}

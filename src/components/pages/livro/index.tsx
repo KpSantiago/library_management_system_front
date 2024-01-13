@@ -15,7 +15,7 @@ export default function Livro() {
     const [load, setLoad] = useState<boolean>(false);
     const user: { data: { id: number; livro_id: number; token: string; } } = JSON.parse(localStorage.getItem('ashsdas') || 'null');
     const livro_id = useParams();
-
+    const livroSalvo = JSON.parse(localStorage.getItem('livro') || 'null')
     const [livro, setLivro] = useState({} as ILivros);
     const [msg, setMsg] = useState<string | null>(null);
 
@@ -26,15 +26,17 @@ export default function Livro() {
             return res;
         }
 
-
-        getLivro().then(d => { setLoad(true); return d.json() }).then(d => { setLivro(d.data[0]) }).catch(e => console.log(e)).finally(() => setLoad(false));
-
-
+        if (!livroSalvo) {
+            getLivro().then(d => { setLoad(true); return d.json() }).then(d => { setLivro(d.data[0]); localStorage.setItem('livro', JSON.stringify(livro)) }).catch(e => console.log(e)).finally(() => setLoad(false));
+        } else {
+            setLivro(livroSalvo);
+        }
     }, []);
 
     if (!user || !user.data.token) {
         Navigate({ to: '/' })
     }
+
     async function adquirir() {
         setLoad(true);
         dia += livro.dias_para_devolucao;
@@ -68,7 +70,7 @@ export default function Livro() {
             headers: {
                 'Content-Type': 'application/json'
             }, body: JSON.stringify(livro_body)
-        }).then(d => { return d.json(); }).then(d => { console.log(d); }).catch(e => console.log(e)).finally(() => {
+        }).then(d => { return d.json(); }).then(d => { }).catch(e => console.log(e)).finally(() => {
             dia = date.getDate();
             mes = date.getMonth() + 1;
             ano = date.getFullYear();
@@ -82,7 +84,7 @@ export default function Livro() {
             }, body: JSON.stringify(aluno_body)
         }).then(d => { return d.json(); }).then(d => {
             if (!d.error) {
-                setMsg(d.message)
+                setMsg(d.message);
             }
         }).catch(e => console.log(e))
         localStorage.setItem('ashsdas', JSON.stringify({ data: { id: user.data.id, livro_id: livro_id.id, token: user.data.token } }))
@@ -119,7 +121,7 @@ export default function Livro() {
             headers: {
                 'Content-Type': 'application/json'
             }, body: JSON.stringify(aluno_body)
-        }).then(d => { return d.json(); }).then(d => console.log(d)).catch(e => console.log(e))
+        }).then(d => { return d.json(); }).then(d => localStorage.setItem('livro', JSON.stringify(d.data))).catch(e => console.log(e))
         localStorage.setItem('ashsdas', JSON.stringify({ data: { id: user.data.id, livro_id: null, token: user.data.token } }))
         setLoad(false)
         window.location.reload();
@@ -138,7 +140,7 @@ export default function Livro() {
     }
 
     return (
-        <div className='w-screen max-w-screen h-screen max-h-screen grid place-items-center overflow-y-auto relative'>
+        <div className='book-container w-screen max-w-screen h-screen max-h-screen grid place-items-center overflow-y-auto relative'>
             {msg &&
                 <div className='w-full flex justify-center fixed top-0 z-20 pt-4'>
                     <p className='bg-[#0F06] text-white text-2xl font-semibold w-[50%] h-12  grid place-items-center border-[1px] border-green-600 rounded-2xl p-2'>{msg}</p>
@@ -147,8 +149,8 @@ export default function Livro() {
                 <Loading size='screen' bg='bg-[#000a]' />
             }
 
-            <div className='w-[90%] h-[90%] flex flex-wrap items-center gap-8'>
-                {livro.image ? <img className='img min-w-[200px] w-[20%] h-[65%] rounded-2xl' src={`${REACT_APP_API_URL}api/image/${livro.image}`} /> : <div className='bg-slate-400 min-w-[200px] w-[20%] h-[65%] rounded-2xl'></div>}
+            <div className='w-[90%] h-[90%] flex flex-wrap items-center justify-center gap-8'>
+                {livro.image ? <img className='img min-w-[200px] w-[20%] h-[65%] max-h-[350px] rounded-2xl' src={`${REACT_APP_API_URL}api/image/${livro.image}`} /> : <div className='bg-slate-400 min-w-[200px] w-[20%] h-[65%] rounded-2xl'></div>}
                 <div className='infos h-[65%]'>
                     <h1 className='text-3xl font-semibold mb-5'>{livro.nome}</h1>
                     <div className='flex flex-wrap gap-7'>
@@ -156,7 +158,7 @@ export default function Livro() {
                         <p className='font-semibold text-[#000a]'>Data de devolução: <span className='text-purple-600'>{livro.data_devolucao ? new Date(livro.data_devolucao).toLocaleDateString() : '-'}</span></p>
                         <p className='font-semibold text-[#000a]'>Data de devolução estimada: <span className='text-purple-600'>{livro.data_devolucao_estimada ? new Date(livro.data_devolucao_estimada).toLocaleDateString() : '-'}</span></p>
                     </div>
-                    <p className='w-aut h-fit break-words text-justify'>{livro.sinopse ? livro.sinopse : 'Esta obra não possui sinopse ainda.'}</p>
+                    <p className='w-full h-fit break-words text-justify'>{livro.sinopse ? livro.sinopse : 'Esta obra não possui sinopse ainda.'}</p>
                     <p><span className='font-semibold'>Está disponível: </span> {livro.esta_disponivel ? 'sim' : 'não'}</p>
                     <p><span className='font-semibold'>Tipo do livro: </span> {livro.tipo}</p>
                     <div className='flex flex-wrap gap-4'>

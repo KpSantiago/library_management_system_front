@@ -18,7 +18,9 @@ export default function Home() {
             return res;
         }
 
-        getLivro().then(d => d.json()).then(d =>  setLivro(d.data[0]) ).catch(e => console.log(e));
+        if (user.data.livro_id) {
+            getLivro().then(d => d.json()).then(d => setLivro(d.data[0])).catch(e => console.log(e));
+        }
     }, [])
 
     if (livro) {
@@ -39,13 +41,8 @@ export default function Home() {
         Navigate({ to: '/' })
     }
 
-    function nav(livro_id: number) {
-        Navigate({ to: `/livro/${livro_id}` })
-    }
-
-
     return (
-        <div className="w-full max-w-full max-h-screen overflow-y-auto">
+        <div className="book-container w-full max-w-full max-h-screen overflow-y-auto">
             <div className="w-full max-w-full h-fit flex justify-start gap-6 px-8 my-8 overflow-x-auto">
                 <NavLink to={`/livro/${livro && livro.id}`} className="bg-[#44cd7644] min-w-[350px] w-[30%] h-[200px] border-2 border-green-400 rounded-xl grid place-items-center">
                     {livro ?
