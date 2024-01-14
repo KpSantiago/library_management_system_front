@@ -23,10 +23,14 @@ export default function Home() {
             return res;
         }
 
-        if (user!.data.livro_id) {
-            getLivro().then(d => d.json()).then(d => setLivro(d.data[0])).catch(e => console.log(e));
-        } else {
+        if (!user) {
             setLivro(null)
+        } else {
+            if (user.data.livro_id) {
+                getLivro().then(d => d.json()).then(d => setLivro(d.data[0])).catch(e => console.log(e));
+            } else {
+                setLivro(null)
+            }
         }
     }, [])
 
