@@ -8,7 +8,7 @@ import { NavLink, Navigate } from 'react-router-dom'
 const { REACT_APP_API_URL } = process.env;
 
 export default function Home() {
-    const [livro, setLivro] = useState({} as ILivros)
+    const [livro, setLivro] = useState({} as ILivros | null)
     const user: { data: { id: number; livro_id: number; token: string; } } = JSON.parse(localStorage.getItem('ashsdas') || 'null');
 
     useEffect(() => {
@@ -20,6 +20,8 @@ export default function Home() {
 
         if (user.data.livro_id) {
             getLivro().then(d => d.json()).then(d => setLivro(d.data[0])).catch(e => console.log(e));
+        } else {
+            setLivro(null)
         }
     }, [])
 
