@@ -14,8 +14,6 @@ export default function Livros() {
 
     if (!user) {
         Navigate({ to: '/' })
-    } else if (!user!.data.token) {
-        Navigate({ to: '/' })
     }
 
     return (

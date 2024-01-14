@@ -11,10 +11,8 @@ export default function Home() {
     const [livro, setLivro] = useState({} as ILivros | null)
     const user: { data: { id: number; livro_id: number; token: string; } } | null = JSON.parse(localStorage.getItem('ashsdas') || 'null');
 
-    
+
     if (!user) {
-        Navigate({ to: '/' })
-    } else if (!user!.data.token) {
         Navigate({ to: '/' })
     }
 

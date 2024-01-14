@@ -21,9 +21,7 @@ export default function Livro() {
 
     if (!user) {
         Navigate({ to: '/' })
-    } else if (!user!.data.token) {
-        Navigate({ to: '/' })
-    }
+    } 
 
    useEffect(() => {
         async function getLivro() {
