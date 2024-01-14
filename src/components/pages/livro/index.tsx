@@ -15,7 +15,7 @@ export default function Livro() {
     const [load, setLoad] = useState<boolean>(false);
     const user: { data: { id: number; livro_id: number; token: string; } } = JSON.parse(localStorage.getItem('ashsdas') || 'null');
     const livro_id = useParams();
-    const livroSalvo = JSON.parse(localStorage.getItem('livro') || 'null')
+    const livrosSalvos: any = JSON.parse(localStorage.getItem('livros') || 'null')
     const [livro, setLivro] = useState({} as ILivros);
     const [msg, setMsg] = useState<string | null>(null);
 
@@ -26,7 +26,12 @@ export default function Livro() {
             return res;
         }
 
+        if (!livrosSalvos) {
             getLivro().then(d => { setLoad(true); return d.json() }).then(d => { setLivro(d.data[0]); localStorage.setItem('livro', JSON.stringify(livro)) }).catch(e => console.log(e)).finally(() => setLoad(false));
+        } else {
+            let l = livrosSalvos.find((l: any) => l.id == livro_id.id)
+            setLivro(l);
+        }
     }, []);
 
     if (!user || !user.data.token) {
