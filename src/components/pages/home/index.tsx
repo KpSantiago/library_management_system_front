@@ -11,6 +11,13 @@ export default function Home() {
     const [livro, setLivro] = useState({} as ILivros | null)
     const user: { data: { id: number; livro_id: number; token: string; } } | null = JSON.parse(localStorage.getItem('ashsdas') || 'null');
 
+    
+    if (!user) {
+        Navigate({ to: '/' })
+    } else if (!user!.data.token) {
+        Navigate({ to: '/' })
+    }
+
     useEffect(() => {
         async function getLivro() {
             const res = await fetch(`${REACT_APP_API_URL}api/livros/${Number(user!.data.livro_id)}`);
@@ -39,12 +46,6 @@ export default function Home() {
         }
     }
 
-    if (!user) {
-        Navigate({ to: '/' })
-    } else if (!user!.data.token) {
-        Navigate({ to: '/' })
-    }
-    
     return (
         <div className="book-container w-full max-w-full max-h-screen overflow-y-auto">
             <div className="w-full max-w-full h-fit flex justify-start gap-6 px-8 my-8 overflow-x-auto">

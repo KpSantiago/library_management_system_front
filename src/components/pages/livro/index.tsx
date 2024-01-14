@@ -19,7 +19,13 @@ export default function Livro() {
     const [livro, setLivro] = useState({} as ILivros);
     const [msg, setMsg] = useState<string | null>(null);
 
-    useEffect(() => {
+    if (!user) {
+        Navigate({ to: '/' })
+    } else if (!user!.data.token) {
+        Navigate({ to: '/' })
+    }
+
+   useEffect(() => {
         async function getLivro() {
             const res = await fetch(`${REACT_APP_API_URL}api/livros/${Number(livro_id.id)}`);
 
@@ -34,11 +40,6 @@ export default function Livro() {
         }
     }, []);
 
-    if (!user) {
-        Navigate({ to: '/' })
-    } else if (!user!.data.token) {
-        Navigate({ to: '/' })
-    }
 
     async function adquirir() {
         setLoad(true);
