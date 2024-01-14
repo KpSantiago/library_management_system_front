@@ -46,10 +46,6 @@ export default function LoginRegister() {
         }).catch(e => console.log(e)).finally(() => { setTimeout(() => { setError(null) }, 3500) }).finally(() => { setEmail(''); setSenha(''); setNome(''); setLoad(false) });
     }
 
-    if (user.data.token) {
-        navigate('/home')
-    }
-
     async function entrar() {
         const body = {
             email: emailLg,
@@ -74,6 +70,10 @@ export default function LoginRegister() {
         }).catch(e => console.log(e)).finally(() => { setLoad(false); setSenhaLg(''); setEmailLg(''); setTimeout(() => { setError(null) }, 3500); });
     }
 
+    if (user.data.token) {
+        navigate('/home')
+    }
+    
     return (
         <div className='form-container bg-transparent backdrop-blur-[4px] min-w-[250px] w-[30%] min-h-[60%] h-fit max-h-fit flex flex-col items-center rounded-2xl py-4 overflow-x-hidden'>
             {load &&
