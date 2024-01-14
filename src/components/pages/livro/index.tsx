@@ -13,7 +13,7 @@ let ano = date.getFullYear();
 
 export default function Livro() {
     const [load, setLoad] = useState<boolean>(false);
-    const user: { data: { id: number; livro_id: number; token: string; } } = JSON.parse(localStorage.getItem('ashsdas') || 'null');
+    const user: { data: { id: number; livro_id: number; token: string; } } | null= JSON.parse(localStorage.getItem('ashsdas') || 'null');
     const livro_id = useParams();
     const livrosSalvos: any = JSON.parse(localStorage.getItem('livros') || 'null')
     const [livro, setLivro] = useState({} as ILivros);
@@ -36,9 +36,7 @@ export default function Livro() {
 
     if (!user) {
         Navigate({ to: '/' })
-    }
-
-    if (!user.data.token) {
+    } else if (!user!.data.token) {
         Navigate({ to: '/' })
     }
 
@@ -82,7 +80,7 @@ export default function Livro() {
 
         });
 
-        await fetch(`${REACT_APP_API_URL}api/purchase/${Number(user.data.id)}`, {
+        await fetch(`${REACT_APP_API_URL}api/purchase/${Number(user!.data.id)}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -92,7 +90,7 @@ export default function Livro() {
                 setMsg(d.message);
             }
         }).catch(e => console.log(e))
-        localStorage.setItem('ashsdas', JSON.stringify({ data: { id: user.data.id, livro_id: livro_id.id, token: user.data.token } }))
+        localStorage.setItem('ashsdas', JSON.stringify({ data: { id: user!.data.id, livro_id: livro_id.id, token: user!.data.token } }))
         setLoad(false)
         window.location.reload();
 
@@ -121,13 +119,13 @@ export default function Livro() {
             ano = date.getFullYear();
         });
 
-        await fetch(`${REACT_APP_API_URL}api/purchase/${Number(user.data.id)}`, {
+        await fetch(`${REACT_APP_API_URL}api/purchase/${Number(user!.data.id)}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
             }, body: JSON.stringify(aluno_body)
         }).then(d => { return d.json(); }).then(d => localStorage.setItem('livro', JSON.stringify(d.data))).catch(e => console.log(e))
-        localStorage.setItem('ashsdas', JSON.stringify({ data: { id: user.data.id, livro_id: null, token: user.data.token } }))
+        localStorage.setItem('ashsdas', JSON.stringify({ data: { id: user!.data.id, livro_id: null, token: user!.data.token } }))
         setLoad(false)
         window.location.reload();
     }
@@ -167,8 +165,8 @@ export default function Livro() {
                     <p><span className='font-semibold'>Está disponível: </span> {livro.esta_disponivel ? 'sim' : 'não'}</p>
                     <p><span className='font-semibold'>Tipo do livro: </span> {livro.tipo}</p>
                     <div className='flex flex-wrap gap-4'>
-                        <button className='bg-green-600 text-white text-xl font-semibold min-w-44 h-12 rounded-lg my-5 hover:bg-green-800 duration-300 disabled:bg-slate-600 px-3' onClick={adquirir} disabled={user.data.livro_id || !livro.esta_disponivel ? true : false}>{user.data.livro_id || !livro.esta_disponivel ? `${user.data.livro_id == livro.id ? 'Adquirido!' : 'Não é possivel adquirir'}` : 'Adquirir'}</button>
-                        {Number(livro_id.id) == user.data.livro_id ? <button className='bg-purple-600 text-white text-xl font-semibold min-w-44 h-12 rounded-lg my-5 hover:bg-purple-800 duration-300 px-3' onClick={devolucao}>Devolver</button> : ''}
+                        <button className='bg-green-600 text-white text-xl font-semibold min-w-44 h-12 rounded-lg my-5 hover:bg-green-800 duration-300 disabled:bg-slate-600 px-3' onClick={adquirir} disabled={user!.data.livro_id || !livro.esta_disponivel ? true : false}>{user!.data.livro_id || !livro.esta_disponivel ? `${user!.data.livro_id == livro.id ? 'Adquirido!' : 'Não é possivel adquirir'}` : 'Adquirir'}</button>
+                        {Number(livro_id.id) == user!.data.livro_id ? <button className='bg-purple-600 text-white text-xl font-semibold min-w-44 h-12 rounded-lg my-5 hover:bg-purple-800 duration-300 px-3' onClick={devolucao}>Devolver</button> : ''}
                         <button className='bg-[#fa5] text-white text-xl font-semibold min-w-44 h-12 rounded-lg my-5 hover:bg-[#fa5d] duration-300 disabled:bg-slate-600 px-3' onClick={() => {
                             let l = [];
                             l.push(livro);

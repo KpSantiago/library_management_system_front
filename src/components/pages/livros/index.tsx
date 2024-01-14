@@ -5,7 +5,7 @@ import './style.css';
 import { Navigate } from 'react-router-dom';
 
 export default function Livros() {
-    const user: { data: { id: number; livro_id: number; token: string; } } = JSON.parse(localStorage.getItem('ashsdas') || 'null');
+    const user: { data: { id: number; livro_id: number; token: string; } } | null = JSON.parse(localStorage.getItem('ashsdas') || 'null');
     const [search, setSearch] = useState(null)
     const inputRef: any = useRef(null)
     function submit() {
@@ -14,9 +14,7 @@ export default function Livros() {
 
     if (!user) {
         Navigate({ to: '/' })
-    }
-
-    if (!user.data.token) {
+    } else if (!user!.data.token) {
         Navigate({ to: '/' })
     }
 

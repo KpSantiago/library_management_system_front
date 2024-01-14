@@ -9,16 +9,16 @@ const { REACT_APP_API_URL } = process.env;
 
 export default function Home() {
     const [livro, setLivro] = useState({} as ILivros | null)
-    const user: { data: { id: number; livro_id: number; token: string; } } = JSON.parse(localStorage.getItem('ashsdas') || 'null');
+    const user: { data: { id: number; livro_id: number; token: string; } } | null = JSON.parse(localStorage.getItem('ashsdas') || 'null');
 
     useEffect(() => {
         async function getLivro() {
-            const res = await fetch(`${REACT_APP_API_URL}api/livros/${Number(user.data.livro_id)}`);
+            const res = await fetch(`${REACT_APP_API_URL}api/livros/${Number(user!.data.livro_id)}`);
 
             return res;
         }
 
-        if (user.data.livro_id) {
+        if (user!.data.livro_id) {
             getLivro().then(d => d.json()).then(d => setLivro(d.data[0])).catch(e => console.log(e));
         } else {
             setLivro(null)
@@ -41,12 +41,10 @@ export default function Home() {
 
     if (!user) {
         Navigate({ to: '/' })
-    }
-
-    if (!user.data.token) {
+    } else if (!user!.data.token) {
         Navigate({ to: '/' })
     }
-
+    
     return (
         <div className="book-container w-full max-w-full max-h-screen overflow-y-auto">
             <div className="w-full max-w-full h-fit flex justify-start gap-6 px-8 my-8 overflow-x-auto">
