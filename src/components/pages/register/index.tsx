@@ -6,7 +6,7 @@ import { Navigate } from "react-router-dom";
 
 export default function Register() {
     const user: { data: { token: string; livro_id: string; id: string } } = JSON.parse(localStorage.getItem('ashsdas') || 'null');
-    if (user.data.token) {
+    if (user && user.data.token) {
         Navigate({ to: '/home' })
     }
     return (
