@@ -8,6 +8,7 @@ import Loading from '../loading';
 const { REACT_APP_API_URL } = process.env;
 
 export default function LoginRegister() {
+    const user: { data: { token: string; livro_id: string; id: string } } = JSON.parse(localStorage.getItem('ashsdas') || 'null');
     const navigate = useNavigate();
     const [nome, setNome] = useState<string>('');
     const [load, setLoad] = useState<boolean>(false);
@@ -43,6 +44,10 @@ export default function LoginRegister() {
                 setError(d.message)
             }
         }).catch(e => console.log(e)).finally(() => { setTimeout(() => { setError(null) }, 3500) }).finally(() => { setEmail(''); setSenha(''); setNome(''); setLoad(false) });
+    }
+
+    if (user.data.token) {
+        navigate('/home')
     }
 
     async function entrar() {
