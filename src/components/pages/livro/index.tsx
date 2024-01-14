@@ -34,7 +34,11 @@ export default function Livro() {
         }
     }, []);
 
-    if (!user || !user.data.token) {
+    if (!user) {
+        Navigate({ to: '/' })
+    }
+
+    if (!user.data.token) {
         Navigate({ to: '/' })
     }
 

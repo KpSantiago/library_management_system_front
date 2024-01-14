@@ -39,7 +39,11 @@ export default function Home() {
         }
     }
 
-    if (!user || !user.data.token) {
+    if (!user) {
+        Navigate({ to: '/' })
+    }
+
+    if (!user.data.token) {
         Navigate({ to: '/' })
     }
 
