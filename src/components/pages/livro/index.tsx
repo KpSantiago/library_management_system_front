@@ -26,11 +26,7 @@ export default function Livro() {
             return res;
         }
 
-        if (!livroSalvo) {
             getLivro().then(d => { setLoad(true); return d.json() }).then(d => { setLivro(d.data[0]); localStorage.setItem('livro', JSON.stringify(livro)) }).catch(e => console.log(e)).finally(() => setLoad(false));
-        } else {
-            setLivro(livroSalvo);
-        }
     }, []);
 
     if (!user || !user.data.token) {
