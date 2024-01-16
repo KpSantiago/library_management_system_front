@@ -15,7 +15,7 @@ export default function Livro() {
     const [load, setLoad] = useState<boolean>(false);
     const user: { data: { id: number; livro_id: number; token: string; } } | null= JSON.parse(localStorage.getItem('ashsdas') || 'null');
     const livro_id = useParams();
-    const livrosSalvos: any = JSON.parse(localStorage.getItem('livros') || 'null')
+    const livrosSalvos: any[] = JSON.parse(localStorage.getItem('livros') || 'null')
     const [livro, setLivro] = useState({} as ILivros);
     const [msg, setMsg] = useState<string | null>(null);
 
