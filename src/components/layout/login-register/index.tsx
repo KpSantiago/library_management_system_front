@@ -70,7 +70,7 @@ export default function LoginRegister() {
     }
     
     return (
-        <div className='form-container bg-transparent backdrop-blur-[4px] min-w-[250px] w-[30%] min-h-[60%] h-fit max-h-[500px] flex flex-col items-center rounded-2xl py-4 overflow-x-hidden'>
+        <div className='form-container bg-transparent backdrop-blur-[4px] min-w-[250px] w-[30%] min-h-[60%] h-fit max-h-[435px] flex flex-col items-center rounded-2xl py-4 overflow-x-hidden'>
             {load &&
                 <Loading size='full' bg='bg-[#0004]' />
             }
