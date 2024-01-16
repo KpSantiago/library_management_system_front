@@ -3,6 +3,7 @@ import { Navigate, useParams } from 'react-router-dom';
 import './style.css';
 import ILivros from '../../../interfaces/iLivros';
 import Loading from '../../layout/loading';
+import IData from '../../../interfaces/iData';
 
 const { REACT_APP_API_URL } = process.env;
 
@@ -15,7 +16,7 @@ export default function Livro() {
     const [load, setLoad] = useState<boolean>(false);
     const user: { data: { id: number; livro_id: number; token: string; } } | null= JSON.parse(localStorage.getItem('ashsdas') || 'null');
     const livro_id = useParams();
-    const livrosSalvos: any[] = JSON.parse(localStorage.getItem('livros') || 'null')
+    const livrosSalvos: IData<ILivros[]> | null = JSON.parse(localStorage.getItem('livros') || 'null')
     const [livro, setLivro] = useState({} as ILivros);
     const [msg, setMsg] = useState<string | null>(null);
 
