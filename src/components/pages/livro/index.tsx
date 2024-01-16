@@ -14,7 +14,7 @@ let ano = date.getFullYear();
 
 export default function Livro() {
     const [load, setLoad] = useState<boolean>(false);
-    const user: { data: { id: number; livro_id: number; token: string; } } | null= JSON.parse(localStorage.getItem('ashsdas') || 'null');
+    const user: { data: { id: number; livro_id: number; token: string; } } | null = JSON.parse(localStorage.getItem('ashsdas') || 'null');
     const livro_id = useParams();
     const livrosSalvos: IData<ILivros[]> | null = JSON.parse(localStorage.getItem('livros') || 'null')
     const [livro, setLivro] = useState({} as ILivros);
@@ -22,9 +22,9 @@ export default function Livro() {
 
     if (!user) {
         Navigate({ to: '/' })
-    } 
+    }
 
-   useEffect(() => {
+    useEffect(() => {
         async function getLivro() {
             const res = await fetch(`${REACT_APP_API_URL}api/livros/${Number(livro_id.id)}`);
 
@@ -34,8 +34,10 @@ export default function Livro() {
         if (!livrosSalvos) {
             getLivro().then(d => { setLoad(true); return d.json() }).then(d => { setLivro(d.data[0]); localStorage.setItem('livro', JSON.stringify(livro)) }).catch(e => console.log(e)).finally(() => setLoad(false));
         } else {
-            let l = livrosSalvos.find((l: any) => l.id == livro_id.id)
-            setLivro(l);
+            let l = livrosSalvos.data.find((l: any) => l.id == livro_id.id)
+            if (l) {
+                setLivro(l);
+            }
         }
     }, []);
 
