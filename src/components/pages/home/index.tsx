@@ -55,7 +55,7 @@ export default function Home() {
                     {livro ?
                         <div>
                             <h2 className='text-lg'>Você está lendo: <strong>{livro.nome}</strong>!</h2>
-                            {<p><span className='font-semibold'>Autor(es):</span> {
+                            {livro.autor && <p><span className='font-semibold'>Autor(es):</span> {
                                 livro.autor.map((a, i) => <span key={i}><span>{a.nome}</span>{i + 1 < livro.autor.length && <span></span>}</span>)
                             }</p>}
                             <p><span className='font-semibold'>Devolver:</span> {new Date(livro.data_devolucao_estimada).toLocaleDateString()}</p>
@@ -69,7 +69,7 @@ export default function Home() {
                             <div className="bg-[#b685e544] min-w-[350px] w-[33%] h-[200px] border-2 border-purple-400 rounded-xl grid place-items-center" key={i + 1}>
                                 <div>
                                     <h2 className='text-lg whitespace-nowrap text-ellipsis'>Interesse em: <strong>{l.nome}</strong>!</h2>
-                                    {<p><span className='font-semibold'>Autor(es):</span> {
+                                    {l.autor && <p><span className='font-semibold'>Autor(es):</span> {
                                         l.autor.map((a: any, i: number) => <span key={i}><span>{a.nome}</span>{i + 1 < l.autor.length && <span></span>}</span>)
                                     }</p>}
                                     <p><span className='font-semibold whitespace-nowrap text-ellipsis'>Tipo do livro:</span> {l.tipo}</p>
