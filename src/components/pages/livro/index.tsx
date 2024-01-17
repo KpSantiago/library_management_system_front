@@ -107,7 +107,7 @@ export default function Livro() {
             headers: {
                 'Content-Type': 'application/json'
             }, body: JSON.stringify(livro_body)
-        }).then(d => { return d.json(); }).then(d => console.log(d)).catch(e => console.log(e)).finally(() => {
+        }).then(d => { return d.json(); }).then(d => { }).catch(e => console.log(e)).finally(() => {
             dia = date.getDate();
             mes = date.getMonth() + 1;
             ano = date.getFullYear();
